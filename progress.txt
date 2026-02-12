@@ -17,6 +17,31 @@ Started: 2026-02-13 02:02 (Europe/Istanbul)
 - Express routes are organized in `backend/src/routes/` directory
 - Routes use Express Router and are wired up in server.ts with app.use()
 - 404 handler and error middleware must be registered after all routes
+- Shared types package `@clawdocs/shared` is used by both backend and frontend
+- Backend re-exports shared types via `export type { Agent, Skill, Tool } from '@clawdocs/shared'`
+
+---
+
+## 2026-02-13 02:43 - US-007: Create shared types package
+- Updated shared/package.json with name @clawdocs/shared and proper exports configuration
+- Created shared/src/types.ts with Agent, Skill, Tool interfaces matching acceptance criteria
+- Agent interface has: id, name, role, model, description, skills[], tools[], lastUpdated
+- Skill interface has: id, name, description, location, optional metadata
+- Tool interface has: id, name, description, optional parameters
+- Updated shared/src/index.ts to export all types from types.ts
+- Updated backend/package.json to depend on @clawdocs/shared
+- Updated backend/src/types/index.ts to re-export from shared package
+- Updated frontend/package.json to depend on @clawdocs/shared
+- Updated backend/src/scanner/skillScanner.ts to include id field (required by shared Skill)
+- Updated tests/backend-server.test.js to check for re-export pattern
+- Created comprehensive test suite in tests/shared-types.test.js (13 tests)
+- All 87 tests pass, typecheck passes, build succeeds
+- Files changed: shared/package.json, shared/src/types.ts (new), shared/src/index.ts, backend/package.json, backend/src/types/index.ts, backend/src/scanner/skillScanner.ts, frontend/package.json, tests/backend-server.test.js, tests/shared-types.test.js (new)
+- **Learnings:**
+  - Shared types package ensures type consistency between backend and frontend
+  - Use `export type { ... } from '@clawdocs/shared'` for clean re-exports
+  - When adding required fields to shared interfaces, update all scanners that create those objects
+  - npm workspaces with `file:../shared` protocol works well for local package dependencies
 
 ---
 
