@@ -29,3 +29,43 @@ Started: 2026-02-13 02:02 (Europe/Istanbul)
   - React app needs minimal App.tsx and proper main.tsx setup to build
 
 ---
+
+## 2026-02-13 02:24 - US-003: Create agent scanner module
+- Created backend/src/scanner/agentScanner.ts with scanAgents() and getAgent() functions
+- Added gray-matter dependency for parsing frontmatter in markdown files
+- Implemented parsing for IDENTITY.md (name, role, emoji from frontmatter or inline format)
+- Implemented parsing for SOUL.md (model and description extraction)
+- Scanner handles missing SOUL.md gracefully (returns empty strings)
+- Scanner ignores directories without IDENTITY.md
+- Returns array of ScannedAgent objects with id, name, role, model, description
+- Created comprehensive test suite in tests/agent-scanner.test.js (7 tests)
+- All tests pass, typecheck passes
+- Files changed: backend/src/scanner/agentScanner.ts (new), tests/agent-scanner.test.js (new), backend/package.json, package-lock.json
+- **Learnings:**
+  - gray-matter handles both frontmatter and raw content parsing seamlessly
+  - Using regex fallbacks for inline markdown format allows flexibility in agent file formats
+  - Scanner should be defensive - handle missing files and parse errors gracefully
+  - Test setup/teardown with node:test before/after hooks works well for temp directories
+
+---
+
+## 2026-02-13 02:08 - US-002: Set up backend Express server with TypeScript
+- Added cors and @types/cors dependencies to backend/package.json
+- Created backend/src/server.ts with Express app on port 4504
+- Configured CORS middleware to allow all origins (for Mission Control access)
+- Added JSON body parsing middleware
+- Added request logging middleware
+- Created health check endpoint at /health
+- Created API root endpoint at /api
+- Exported app and startServer function for testing
+- Created backend/src/types/index.ts with shared type definitions (Agent, Skill, Tool, ScanResult)
+- Updated backend/src/index.ts to import and call startServer
+- Created comprehensive test suite in tests/backend-server.test.js (6 tests)
+- Files changed: backend/package.json, backend/src/index.ts, backend/src/server.ts (new), backend/src/types/index.ts (new), tests/backend-server.test.js (new), package-lock.json
+- **Learnings:**
+  - Express middleware order matters: CORS first, then JSON parsing, then logging
+  - Using cors() with no options allows all origins (simplest for dev/Mission Control)
+  - Separating app creation and server start enables testing without port binding
+  - ES modules require .js extension in imports even when importing .ts files (e.g., './server.js')
+
+---
