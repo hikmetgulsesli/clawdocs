@@ -1,0 +1,24 @@
+{
+  "name": "clawdocs",
+  "version": "1.0.0",
+  "description": "OpenClaw agent documentation system",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "frontend",
+    "shared"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "node --test tests/*.test.js"
+  },
+  "keywords": ["openclaw", "documentation", "agent"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  }
+}
