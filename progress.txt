@@ -11,6 +11,32 @@ Started: 2026-02-13 02:02 (Europe/Istanbul)
 - Test command: `npm test` (runs `node --test tests/*.test.js`)
 - Build command: `npm run build` (runs tsc && vite build for workspaces)
 - Typecheck command: `npm run typecheck` (validates all workspaces)
+- Import compiled JS from `backend/dist/` in tests, not `backend/src/`
+- gray-matter handles both frontmatter and raw content parsing seamlessly
+- Scanner modules should be defensive - handle missing files and parse errors gracefully
+- Express routes are organized in `backend/src/routes/` directory
+- Routes use Express Router and are wired up in server.ts with app.use()
+- 404 handler and error middleware must be registered after all routes
+
+---
+
+## 2026-02-13 02:35 - US-005: Create API endpoints for agents and skills
+- Created backend/src/routes/agents.ts with GET /api/agents and GET /api/agents/:id endpoints
+- Created backend/src/routes/skills.ts with GET /api/skills and GET /api/skills/:name endpoints
+- Created backend/src/routes/health.ts with GET /health endpoint returning { status: 'ok', service: 'clawdocs' }
+- Wired up all routes in server.ts with proper middleware ordering (CORS, JSON parsing, logging, routes, 404, error handler)
+- Added 404 handler that returns JSON error for unknown routes
+- Added error handling middleware that returns 500 with error message
+- Created comprehensive test suite in tests/api-endpoints.test.js (11 tests)
+- Updated backend-server.test.js to verify route imports and middleware
+- All 47 tests pass, typecheck passes, build succeeds
+- Files changed: backend/src/routes/agents.ts (new), backend/src/routes/skills.ts (new), backend/src/routes/health.ts (new), backend/src/server.ts, tests/api-endpoints.test.js (new), tests/backend-server.test.js
+- **Learnings:**
+  - Express routes should be organized in separate files using Router
+  - Routes must be wired up with app.use() before 404 and error handlers
+  - 404 handler must come after all valid routes, before error handler
+  - Error handling middleware should be the last middleware registered
+  - Using separate route files makes the codebase more maintainable
 
 ---
 

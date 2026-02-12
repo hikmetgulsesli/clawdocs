@@ -1,5 +1,8 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
+import agentsRouter from './routes/agents.js';
+import skillsRouter from './routes/skills.js';
+import healthRouter from './routes/health.js';
 
 const PORT = 4504;
 
@@ -19,14 +22,31 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-// Health check endpoint
-app.get('/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', service: 'clawdocs-backend', timestamp: new Date().toISOString() });
-});
+// API routes
+app.use('/health', healthRouter);
+app.use('/api/agents', agentsRouter);
+app.use('/api/skills', skillsRouter);
 
 // API root
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'ClawDocs API', version: '1.0.0' });
+});
+
+// 404 handler - must be after all other routes
+app.use((_req: Request, res: Response) => {
+  res.status(404).json({
+    error: 'Not Found',
+    message: 'The requested resource was not found'
+  });
+});
+
+// Error handling middleware - must be last
+app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message || 'An unexpected error occurred'
+  });
 });
 
 // Start server function (exported for testing)

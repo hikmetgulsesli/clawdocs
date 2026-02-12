@@ -80,5 +80,39 @@ test('server has health check endpoint', async () => {
   const serverPath = join(backendDir, 'src', 'server.ts');
   const serverContent = await readFile(serverPath, 'utf-8');
   
-  assert.match(serverContent, /app\.get\(['"]\/health['"]/, 'has /health endpoint');
+  // Health endpoint is now in a separate router
+  assert.match(serverContent, /import healthRouter.*from ['"]\.\/routes\/health\.js['"]/, 'imports health router');
+  assert.match(serverContent, /app\.use\(['"]\/health['"], healthRouter/, 'uses health router');
+});
+
+test('server has agents API endpoint', async () => {
+  const serverPath = join(backendDir, 'src', 'server.ts');
+  const serverContent = await readFile(serverPath, 'utf-8');
+  
+  assert.match(serverContent, /import agentsRouter.*from ['"]\.\/routes\/agents\.js['"]/, 'imports agents router');
+  assert.match(serverContent, /app\.use\(['"]\/api\/agents['"], agentsRouter/, 'uses agents router');
+});
+
+test('server has skills API endpoint', async () => {
+  const serverPath = join(backendDir, 'src', 'server.ts');
+  const serverContent = await readFile(serverPath, 'utf-8');
+  
+  assert.match(serverContent, /import skillsRouter.*from ['"]\.\/routes\/skills\.js['"]/, 'imports skills router');
+  assert.match(serverContent, /app\.use\(['"]\/api\/skills['"], skillsRouter/, 'uses skills router');
+});
+
+test('server has 404 handler', async () => {
+  const serverPath = join(backendDir, 'src', 'server.ts');
+  const serverContent = await readFile(serverPath, 'utf-8');
+  
+  assert.match(serverContent, /404/, 'has 404 handler');
+  assert.match(serverContent, /res\.status\(404\)/, 'returns 404 status');
+});
+
+test('server has error handling middleware', async () => {
+  const serverPath = join(backendDir, 'src', 'server.ts');
+  const serverContent = await readFile(serverPath, 'utf-8');
+  
+  assert.match(serverContent, /500/, 'has error handler');
+  assert.match(serverContent, /res\.status\(500\)/, 'returns 500 status');
 });
