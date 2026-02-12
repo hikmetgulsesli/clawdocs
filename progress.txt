@@ -19,6 +19,9 @@ Started: 2026-02-13 02:02 (Europe/Istanbul)
 - 404 handler and error middleware must be registered after all routes
 - Shared types package `@clawdocs/shared` is used by both backend and frontend
 - Backend re-exports shared types via `export type { Agent, Skill, Tool } from '@clawdocs/shared'`
+- Frontend hooks use `useState` for data/loading/error and `useEffect` for fetching
+- Frontend API client uses `import.meta.env.VITE_API_BASE_URL` for configurable API URL
+- Frontend needs `vite-env.d.ts` to define ImportMetaEnv for TypeScript
 
 ---
 
@@ -140,5 +143,40 @@ Started: 2026-02-13 02:02 (Europe/Istanbul)
   - Using cors() with no options allows all origins (simplest for dev/Mission Control)
   - Separating app creation and server start enables testing without port binding
   - ES modules require .js extension in imports even when importing .ts files (e.g., './server.js')
+
+---
+
+## 2026-02-13 02:50 - US-008: Create API client and data fetching hooks
+- Created frontend/src/api/client.ts with fetch wrapper and typed API methods
+  * Exports getAgents(), getAgent(id), getSkills(), getSkill(name), checkHealth()
+  * Custom APIError class with status and statusText properties
+  * Uses import.meta.env.VITE_API_BASE_URL with fallback to localhost:4504
+  * Proper error handling for non-OK responses with JSON error parsing
+- Created frontend/src/hooks/useAgents.ts with useAgents() and useAgent(id) hooks
+  * Returns { data, loading, error, refetch } interface
+  * Handles loading states with setLoading(true) before fetch and setLoading(false) after
+  * Error states return Error object with message from APIError or generic error
+  * Uses useCallback for refetch function and useEffect for data fetching
+  * Implements cleanup with cancelled flag to prevent state updates after unmount
+- Created frontend/src/hooks/useSkills.ts with useSkills() and useSkill(name) hooks
+  * Same pattern as useAgents - returns { data, loading, error, refetch }
+  * Proper TypeScript typing for Skill[] data
+  * Handles null name parameter gracefully (skips fetch)
+- Created frontend/src/vite-env.d.ts to define ImportMetaEnv for TypeScript
+  * Defines VITE_API_BASE_URL environment variable type
+  * Fixes "Property 'env' does not exist on type 'ImportMeta'" error
+- Created comprehensive test suite in tests/api-hooks.test.js (43 tests)
+  * Tests for API client exports and functionality
+  * Tests for useAgents hook structure and behavior
+  * Tests for useSkills hook structure and behavior
+  * Tests for TypeScript type safety
+- All 129 tests pass, typecheck passes, build succeeds
+- Files changed: frontend/src/api/client.ts (new), frontend/src/hooks/useAgents.ts (new), frontend/src/hooks/useSkills.ts (new), frontend/src/vite-env.d.ts (new), tests/api-hooks.test.js (new)
+- **Learnings:**
+  - Vite uses `import.meta.env` for environment variables, prefixed with VITE_
+  - Need vite-env.d.ts to extend ImportMeta interface for TypeScript
+  - React hooks should handle cleanup on unmount to prevent memory leaks
+  - Use non-null assertion (!) when TypeScript can't infer null check already happened
+  - Custom error classes allow adding extra properties like status codes
 
 ---
