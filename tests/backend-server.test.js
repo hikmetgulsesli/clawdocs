@@ -53,10 +53,10 @@ test('types/index.ts defines shared types', async () => {
   const typesPath = join(backendDir, 'src', 'types', 'index.ts');
   const typesContent = await readFile(typesPath, 'utf-8');
   
-  // Check type definitions
-  assert.match(typesContent, /export interface Agent/, 'defines Agent interface');
-  assert.match(typesContent, /export interface Skill/, 'defines Skill interface');
-  assert.match(typesContent, /export interface Tool/, 'defines Tool interface');
+  // Check type definitions - now re-exported from shared package
+  assert.match(typesContent, /export.*Agent/, 'exports Agent type');
+  assert.match(typesContent, /export.*Skill/, 'exports Skill type');
+  assert.match(typesContent, /export.*Tool/, 'exports Tool type');
   assert.match(typesContent, /export interface ScanResult/, 'defines ScanResult interface');
 });
 

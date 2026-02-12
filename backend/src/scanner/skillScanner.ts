@@ -1,11 +1,9 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import matter from 'gray-matter';
-import type { Skill } from '../types/index.js';
+import type { SkillWithMetadata } from '../types/index.js';
 
-export interface ScannedSkill extends Skill {
-  metadata?: Record<string, any>;
-}
+export interface ScannedSkill extends SkillWithMetadata {}
 
 /**
  * Parse a SKILL.md file and extract skill information
@@ -47,6 +45,7 @@ function parseSkillFile(skillPath: string): ScannedSkill | null {
     }
     
     return {
+      id: skillId,
       name,
       description,
       location: path.dirname(skillPath),
