@@ -116,6 +116,21 @@ Started: 2026-02-13
 - Typecheck passes
 - Build passes
 - **Learnings:** Modal pattern with backdrop click, ESC key handler, and body scroll lock; useCallback for event handlers; mobile-first responsive modal with slide-up animation
+## 2026-02-13 04:35 - US-017: Create README documentation
+- Created comprehensive README.md with project overview and features
+- Documented tech stack (Node.js, Express, React, Vite, TypeScript)
+- Documented project structure with directory tree
+- Included installation instructions with prerequisites
+- Documented all npm scripts for root, backend, and frontend workspaces
+- Documented all API endpoints with methods, paths, descriptions, and response formats
+- Included example JSON responses for Agent and Skill objects
+- Added development setup guide with dev server instructions
+- Added production setup guide with build and deployment instructions
+- Documented systemd service installation and configuration
+- Listed environment variables with defaults and descriptions
+- Documented available pages and key components
+- Typecheck passes
+- **Learnings:** README should include project structure, all npm scripts, API documentation with examples, and both development and production setup guides
 ---
 
 ## 2026-02-13 04:26 - US-015: Set up production build and static serving
