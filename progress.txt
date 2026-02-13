@@ -16,6 +16,17 @@ Started: 2026-02-13
 - API routes must be defined BEFORE static file serving in Express
 - SPA fallback: serve index.html for all non-API routes to support client-side routing
 
+## 2026-02-13 04:30 - US-016: Create systemd service for ClawDocs
+- Created clawdocs.service file with proper systemd configuration
+- Service runs as setrox user with setrox group
+- Working directory set to /home/setrox/clawdocs
+- ExecStart runs `npm run serve` to start production server
+- Service auto-starts on boot (WantedBy=multi-user.target)
+- Service restarts on failure with 5 second delay (Restart=on-failure)
+- Environment variables set: NODE_ENV=production, PORT=4504, FRONTEND_PORT=3504
+- Security hardening: NoNewPrivileges, ProtectSystem=strict, ReadWritePaths limited
+- Typecheck passes
+- **Learnings:** Systemd service for Node.js apps needs proper environment variables and working directory; security hardening with ProtectSystem requires explicit ReadWritePaths for the app directory
 ---
 
 ## 2026-02-13 03:33 - US-010: Create agent list page with cards
