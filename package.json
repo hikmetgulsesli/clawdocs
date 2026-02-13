@@ -9,7 +9,8 @@
     "shared"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "build": "npm run build -w shared && npm run build -w frontend && npm run build -w backend",
+    "serve": "npm run start -w backend",
     "dev": "concurrently \"npm run dev -w backend\" \"npm run dev -w frontend\"",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "test": "node --test tests/*.test.js"
