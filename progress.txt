@@ -63,3 +63,20 @@ Started: 2026-02-13
 - Build passes
 - **Learnings:** useAgents and useSkills hooks can be combined on a single page for aggregate stats, quick links pattern works well for navigation
 ---
+
+## 2026-02-13 04:07 - US-013: Add search functionality to agents page
+- Created SearchBar.tsx reusable component with input, search icon, and clear button
+- Created SearchBar.css with consistent styling matching SkillsPage search bar
+- Created SearchBar.test.tsx with 9 tests covering all functionality
+- Updated AgentsPage.tsx to include search state and filter agents by name, role, description
+- Updated AgentsPage.css with search section styling and no-results state
+- Updated AgentsPage.test.tsx with 8 new tests for search functionality (15 total)
+- Search filters in real-time as user types
+- Search is case-insensitive
+- Shows 'Showing X of Y' count
+- Shows no results message with clear button when filter returns empty
+- All 75 tests pass (9 SearchBar + 15 AgentsPage + 11 DashboardPage + 14 SkillsPage + 13 SkillCard + 13 AgentCard)
+- Typecheck passes
+- Build passes
+- **Learnings:** Reusable SearchBar component can be shared across pages, use closest() and querySelector for selecting buttons in specific sections
+---
