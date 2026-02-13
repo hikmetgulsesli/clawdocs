@@ -12,6 +12,9 @@ Started: 2026-02-13
 - Typecheck: npm run typecheck (tsc --noEmit)
 - Test files excluded from tsconfig.json to avoid build conflicts
 - Import components without .js extension in test files
+- Production: npm run build outputs frontend to backend/public, npm run serve starts production server
+- API routes must be defined BEFORE static file serving in Express
+- SPA fallback: serve index.html for all non-API routes to support client-side routing
 
 ---
 
@@ -102,4 +105,20 @@ Started: 2026-02-13
 - Typecheck passes
 - Build passes
 - **Learnings:** Modal pattern with backdrop click, ESC key handler, and body scroll lock; useCallback for event handlers; mobile-first responsive modal with slide-up animation
+---
+
+## 2026-02-13 04:26 - US-015: Set up production build and static serving
+- Configured frontend vite.config.ts to build output to backend/public with emptyOutDir: true
+- Updated backend/src/server.ts to serve static files from backend/public using express.static
+- Added SPA fallback route (*) to serve index.html for all non-API routes (supports client-side routing)
+- API routes (/api/*, /health) are defined BEFORE static serving to ensure they take precedence
+- Updated root package.json with proper build script order (shared → frontend → backend)
+- Added npm run serve script to start production server (npm run start -w backend)
+- Created backend/tests/static.test.ts with 10 tests for static file serving
+- Tests cover: root path serving index.html, static assets, SPA fallback for unknown routes, /agents and /skills routes
+- Tests verify API routes still work alongside static files
+- All 10 static serving tests pass
+- Typecheck passes
+- Build outputs correctly to backend/public (index.html + assets/)
+- **Learnings:** API routes must come before static files in Express; SPA fallback with catch-all route (*) should exclude API paths; vite build with outDir can target parent directory
 ---
