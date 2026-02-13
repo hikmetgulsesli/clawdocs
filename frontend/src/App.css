@@ -1,5 +1,28 @@
 /* App.css - Basic layout styles for ClawDocs */
 
+:root {
+  --color-bg: #12121a;
+  --color-surface: #1e1e2e;
+  --color-surface-hover: #252535;
+  --color-border: #313244;
+  --color-text: #cdd6f4;
+  --color-text-secondary: #a6adc8;
+  --color-primary: #89b4fa;
+  --color-primary-hover: #74a0e8;
+  --color-error: #f38ba8;
+  --color-success: #a6e3a1;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  --spacing-3xl: 4rem;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -9,8 +32,8 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
   line-height: 1.6;
-  color: #333;
-  background-color: #f5f5f5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
 }
 
 .app {
@@ -20,34 +43,94 @@ body {
 }
 
 .app-header {
-  background-color: #1a1a2e;
-  color: white;
-  padding: 1.5rem 2rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: var(--spacing-lg) var(--spacing-xl);
   text-align: center;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .app-header h1 {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-primary);
 }
 
 .app-header p {
-  color: #a0a0a0;
+  color: var(--color-text-secondary);
   font-size: 1rem;
+}
+
+.app-nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.app-nav button {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.app-nav button:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-hover);
+}
+
+.app-nav button.active {
+  color: var(--color-primary);
+  background-color: rgba(137, 180, 250, 0.1);
+  border-color: var(--color-primary);
 }
 
 .app-main {
   flex: 1;
-  padding: 2rem;
+  padding: var(--spacing-xl);
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
 }
 
 .app-footer {
-  background-color: #1a1a2e;
-  color: #a0a0a0;
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
   text-align: center;
-  padding: 1rem;
+  padding: var(--spacing-md);
   font-size: 0.875rem;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .app-header {
+    padding: var(--spacing-md);
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .app-nav {
+    flex-wrap: wrap;
+    padding: var(--spacing-sm);
+  }
+
+  .app-nav button {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .app-main {
+    padding: var(--spacing-md);
+  }
 }
