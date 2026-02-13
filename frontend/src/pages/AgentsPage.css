@@ -1,0 +1,143 @@
+/* AgentsPage.css - Styles for the AgentsPage component */
+
+.agents-page {
+  padding: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.agents-page-header {
+  margin-bottom: 2rem;
+}
+
+.agents-page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 0.5rem 0;
+}
+
+.agents-page-header p {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* Grid layout for agent cards */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Loading state */
+.agents-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top-color: #4a90d9;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.agents-loading p {
+  color: #666;
+  font-size: 1rem;
+}
+
+/* Error state */
+.agents-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Empty state */
+.agents-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.agents-empty p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Retry/Refresh button */
+.retry-button {
+  background-color: #4a90d9;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.retry-button:hover {
+  background-color: #357abd;
+}
+
+.retry-button:focus {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+.retry-button:active {
+  transform: translateY(1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .agents-page {
+    padding: 1rem;
+  }
+
+  .agents-page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .agents-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .agents-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
