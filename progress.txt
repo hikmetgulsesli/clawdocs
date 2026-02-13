@@ -31,3 +31,18 @@ Started: 2026-02-13
 - Build passes
 - **Learnings:** Test files need to be excluded from tsconfig.json, use regex matchers for text across multiple elements
 ---
+
+## 2026-02-13 03:43 - US-011: Create skill list page with cards
+- Created SkillCard.tsx component with name, description, location, and system/user badge
+- Created SkillCard.css with responsive styling and different badge colors for system vs user skills
+- Created SkillsPage.tsx with search/filter functionality, loading/error/empty states
+- Created SkillsPage.css with responsive grid layout and search bar styling
+- Created SkillCard.test.tsx with 13 tests covering all functionality including badge types
+- Created SkillsPage.test.tsx with 14 tests covering loading, error, empty, search filtering, and success states
+- System skills have teal badge (system-badge), user skills have purple badge (user-badge)
+- Location path displays without "user:" prefix for user skills
+- All 47 tests pass (13 SkillCard + 14 SkillsPage + 13 AgentCard + 7 AgentsPage)
+- Typecheck passes
+- Build passes
+- **Learnings:** Use closest() and querySelector for selecting elements when multiple buttons have similar text, user skills have location prefixed with "user:" from backend
+---
