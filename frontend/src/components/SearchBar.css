@@ -1,0 +1,74 @@
+/* SearchBar.css - Styles for the SearchBar component */
+
+.search-bar {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  flex: 1;
+  min-width: 280px;
+  max-width: 500px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar-wrapper:focus-within {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.1);
+}
+
+.search-bar-icon {
+  font-size: 1rem;
+  color: #888;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.search-bar-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  color: #333;
+  outline: none;
+}
+
+.search-bar-input::placeholder {
+  color: #aaa;
+}
+
+.search-bar-clear {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  border-radius: 4px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.search-bar-clear:hover {
+  color: #333;
+  background-color: #f0f0f0;
+}
+
+.search-bar-clear:focus {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-bar-wrapper {
+    max-width: none;
+    min-width: auto;
+  }
+}

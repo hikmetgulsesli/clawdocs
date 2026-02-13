@@ -7,7 +7,7 @@
 }
 
 .agents-page-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .agents-page-header h1 {
@@ -21,6 +21,22 @@
   font-size: 1rem;
   color: #666;
   margin: 0;
+}
+
+/* Search section */
+.agents-search-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.agents-count {
+  font-size: 0.875rem;
+  color: #888;
+  white-space: nowrap;
 }
 
 /* Grid layout for agent cards */
@@ -94,6 +110,23 @@
   margin: 0;
 }
 
+/* No results state */
+.agents-no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 1rem;
+  text-align: center;
+}
+
+.agents-no-results p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
 /* Retry/Refresh button */
 .retry-button {
   background-color: #4a90d9;
@@ -128,6 +161,15 @@
 
   .agents-page-header h1 {
     font-size: 1.5rem;
+  }
+
+  .agents-search-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .agents-count {
+    align-self: flex-end;
   }
 
   .agents-grid {
