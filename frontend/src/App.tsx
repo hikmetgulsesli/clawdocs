@@ -2,19 +2,30 @@ import { useState } from 'react';
 import { DashboardPage } from './pages/DashboardPage.js';
 import { AgentsPage } from './pages/AgentsPage.js';
 import { SkillsPage } from './pages/SkillsPage.js';
+import { AgentDetail } from './components/AgentDetail.js';
+import type { Agent } from '@clawdocs/shared';
 import './App.css';
 
 type Page = 'dashboard' | 'agents' | 'skills';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('dashboard');
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
+
+  const handleAgentClick = (agent: Agent) => {
+    setSelectedAgent(agent);
+  };
+
+  const handleCloseAgentDetail = () => {
+    setSelectedAgent(null);
+  };
 
   const renderPage = () => {
     switch (currentPage) {
       case 'dashboard':
         return <DashboardPage onNavigate={setCurrentPage} />;
       case 'agents':
-        return <AgentsPage />;
+        return <AgentsPage onAgentClick={handleAgentClick} />;
       case 'skills':
         return <SkillsPage />;
       default:
@@ -54,6 +65,9 @@ function App() {
       <main className="app-main">
         {renderPage()}
       </main>
+      {selectedAgent && (
+        <AgentDetail agent={selectedAgent} onClose={handleCloseAgentDetail} />
+      )}
       <footer className="app-footer">
         <p>© 2026 ClawDocs</p>
       </footer>

@@ -1,0 +1,365 @@
+/** AgentDetail.css - Styles for the AgentDetail modal component */
+
+/* Backdrop overlay */
+.agent-detail-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal container */
+.agent-detail-modal {
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Close button */
+.agent-detail-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f0f0f0;
+  color: #666;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  z-index: 10;
+}
+
+.agent-detail-close:hover {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.agent-detail-close:focus {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+/* Header section */
+.agent-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.agent-detail-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.agent-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.agent-detail-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+}
+
+.agent-detail-role {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+}
+
+.agent-detail-model-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #667eea;
+  background-color: white;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+  margin-top: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Section styling */
+.agent-detail-section {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.agent-detail-section:last-of-type {
+  border-bottom: none;
+}
+
+.agent-detail-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 1rem 0;
+}
+
+.agent-detail-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #444;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* Stats section */
+.agent-detail-stats {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.agent-detail-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.agent-detail-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.agent-detail-stat-label {
+  font-size: 0.875rem;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Skills list */
+.agent-detail-skills-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.agent-detail-skill-item {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #667eea;
+}
+
+.agent-detail-skill-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.agent-detail-skill-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.agent-detail-skill-version {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #667eea;
+  background-color: #e8f4fd;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+}
+
+.agent-detail-skill-description {
+  font-size: 0.875rem;
+  color: #555;
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+}
+
+.agent-detail-skill-location {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: monospace;
+  background-color: #f0f0f0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Tools list */
+.agent-detail-tools-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.agent-detail-tool-item {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #764ba2;
+}
+
+.agent-detail-tool-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.agent-detail-tool-description {
+  font-size: 0.875rem;
+  color: #555;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Empty state */
+.agent-detail-empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #888;
+}
+
+.agent-detail-empty p {
+  margin: 0;
+  font-size: 0.9375rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .agent-detail-backdrop {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .agent-detail-modal {
+    max-height: 85vh;
+    border-radius: 16px 16px 0 0;
+    animation: slideUpMobile 0.3s ease;
+  }
+
+  @keyframes slideUpMobile {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .agent-detail-header {
+    padding: 1.25rem;
+  }
+
+  .agent-detail-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+
+  .agent-detail-name {
+    font-size: 1.25rem;
+  }
+
+  .agent-detail-section {
+    padding: 1.25rem;
+  }
+
+  .agent-detail-stats {
+    padding: 1rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .agent-detail-stat-value {
+    font-size: 1.25rem;
+  }
+}
+
+/* Scrollbar styling for modal content */
+.agent-detail-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.agent-detail-modal::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 0 16px 16px 0;
+}
+
+.agent-detail-modal::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.agent-detail-modal::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}

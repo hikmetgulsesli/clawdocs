@@ -80,3 +80,26 @@ Started: 2026-02-13
 - Build passes
 - **Learnings:** Reusable SearchBar component can be shared across pages, use closest() and querySelector for selecting buttons in specific sections
 ---
+
+## 2026-02-13 04:17 - US-014: Create agent detail modal/page
+- Created AgentDetail.tsx modal component with full agent information
+- Created AgentDetail.css with responsive styling (mobile bottom sheet style)
+- Created AgentDetail.test.tsx with 24 tests covering all functionality
+- Modal opens when agent card is clicked (via onAgentClick callback)
+- Shows full agent name and role in gradient header with avatar
+- Model badge prominently displayed in header
+- Full description shown (not truncated)
+- Skills listed with names, descriptions, versions, and locations
+- Tools listed with names and descriptions
+- Close button (X) in top right corner
+- Click outside modal to close
+- ESC key closes modal
+- Prevents body scroll when modal is open
+- Stats section shows skill and tool counts
+- Empty state shown when no skills or tools
+- Updated App.tsx to integrate AgentDetail with agent selection state
+- All 99 tests pass (24 AgentDetail + 9 SearchBar + 15 AgentsPage + 11 DashboardPage + 14 SkillsPage + 13 SkillCard + 13 AgentCard)
+- Typecheck passes
+- Build passes
+- **Learnings:** Modal pattern with backdrop click, ESC key handler, and body scroll lock; useCallback for event handlers; mobile-first responsive modal with slide-up animation
+---
