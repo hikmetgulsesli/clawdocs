@@ -1,0 +1,182 @@
+# Progress Log
+Run: 6445d071-fd22-44a9-bc51-aed307e894e1
+Task: ClawDocs - OpenClaw agent documentation system
+Started: 2026-02-13 02:02 (Europe/Istanbul)
+
+## Codebase Patterns
+- Project uses npm workspaces with backend/, frontend/, shared/
+- Backend: Node.js + Express + TypeScript (ES modules, port 4504)
+- Frontend: React + Vite + TypeScript (port 3504)
+- Tests use node:test (native Node.js test runner)
+- Test command: `npm test` (runs `node --test tests/*.test.js`)
+- Build command: `npm run build` (runs tsc && vite build for workspaces)
+- Typecheck command: `npm run typecheck` (validates all workspaces)
+- Import compiled JS from `backend/dist/` in tests, not `backend/src/`
+- gray-matter handles both frontmatter and raw content parsing seamlessly
+- Scanner modules should be defensive - handle missing files and parse errors gracefully
+- Express routes are organized in `backend/src/routes/` directory
+- Routes use Express Router and are wired up in server.ts with app.use()
+- 404 handler and error middleware must be registered after all routes
+- Shared types package `@clawdocs/shared` is used by both backend and frontend
+- Backend re-exports shared types via `export type { Agent, Skill, Tool } from '@clawdocs/shared'`
+- Frontend hooks use `useState` for data/loading/error and `useEffect` for fetching
+- Frontend API client uses `import.meta.env.VITE_API_BASE_URL` for configurable API URL
+- Frontend needs `vite-env.d.ts` to define ImportMetaEnv for TypeScript
+
+---
+
+## 2026-02-13 02:43 - US-007: Create shared types package
+- Updated shared/package.json with name @clawdocs/shared and proper exports configuration
+- Created shared/src/types.ts with Agent, Skill, Tool interfaces matching acceptance criteria
+- Agent interface has: id, name, role, model, description, skills[], tools[], lastUpdated
+- Skill interface has: id, name, description, location, optional metadata
+- Tool interface has: id, name, description, optional parameters
+- Updated shared/src/index.ts to export all types from types.ts
+- Updated backend/package.json to depend on @clawdocs/shared
+- Updated backend/src/types/index.ts to re-export from shared package
+- Updated frontend/package.json to depend on @clawdocs/shared
+- Updated backend/src/scanner/skillScanner.ts to include id field (required by shared Skill)
+- Updated tests/backend-server.test.js to check for re-export pattern
+- Created comprehensive test suite in tests/shared-types.test.js (13 tests)
+- All 87 tests pass, typecheck passes, build succeeds
+- Files changed: shared/package.json, shared/src/types.ts (new), shared/src/index.ts, backend/package.json, backend/src/types/index.ts, backend/src/scanner/skillScanner.ts, frontend/package.json, tests/backend-server.test.js, tests/shared-types.test.js (new)
+- **Learnings:**
+  - Shared types package ensures type consistency between backend and frontend
+  - Use `export type { ... } from '@clawdocs/shared'` for clean re-exports
+  - When adding required fields to shared interfaces, update all scanners that create those objects
+  - npm workspaces with `file:../shared` protocol works well for local package dependencies
+
+---
+
+## 2026-02-13 02:35 - US-005: Create API endpoints for agents and skills
+- Created backend/src/routes/agents.ts with GET /api/agents and GET /api/agents/:id endpoints
+- Created backend/src/routes/skills.ts with GET /api/skills and GET /api/skills/:name endpoints
+- Created backend/src/routes/health.ts with GET /health endpoint returning { status: 'ok', service: 'clawdocs' }
+- Wired up all routes in server.ts with proper middleware ordering (CORS, JSON parsing, logging, routes, 404, error handler)
+- Added 404 handler that returns JSON error for unknown routes
+- Added error handling middleware that returns 500 with error message
+- Created comprehensive test suite in tests/api-endpoints.test.js (11 tests)
+- Updated backend-server.test.js to verify route imports and middleware
+- All 47 tests pass, typecheck passes, build succeeds
+- Files changed: backend/src/routes/agents.ts (new), backend/src/routes/skills.ts (new), backend/src/routes/health.ts (new), backend/src/server.ts, tests/api-endpoints.test.js (new), tests/backend-server.test.js
+- **Learnings:**
+  - Express routes should be organized in separate files using Router
+  - Routes must be wired up with app.use() before 404 and error handlers
+  - 404 handler must come after all valid routes, before error handler
+  - Error handling middleware should be the last middleware registered
+  - Using separate route files makes the codebase more maintainable
+
+---
+
+## 2026-02-13 02:40 - US-006: Set up frontend React + Vite project
+- Enhanced App.tsx with proper layout structure (header, main, footer)
+- Created App.css with basic styling for the layout
+- All acceptance criteria met:
+  * frontend/package.json has react, react-dom, vite, @vitejs/plugin-react, typescript dependencies
+  * vite.config.ts configures React plugin and port 3504
+  * index.html loads src/main.tsx
+  * src/main.tsx renders App component using createRoot
+  * src/App.tsx exists with basic layout (header, main, footer)
+  * npm run dev starts Vite dev server on port 3504
+  * Typecheck passes (tsc --noEmit)
+- Created comprehensive test suite in tests/frontend-setup.test.js (27 tests)
+- All 74 tests pass, typecheck passes, build succeeds
+- Files changed: frontend/src/App.tsx, frontend/src/App.css (new), tests/frontend-setup.test.js (new)
+- **Learnings:**
+  - Vite React projects need @vitejs/plugin-react for Fast Refresh and JSX transformation
+  - Port configuration in vite.config.ts goes under server.port
+  - React 18 uses createRoot API instead of ReactDOM.render
+  - StrictMode is recommended for development to catch potential issues
+
+---
+
+## 2026-02-13 02:02 - US-001: Delete existing ClawDocs and initialize project structure
+- Completely removed existing /home/setrox/clawdocs directory
+- Created fresh monorepo structure with backend/, frontend/, shared/ workspaces
+- Set up root package.json with workspace configuration
+- Created tsconfig.json for each workspace (Node.js for backend, Vite React for frontend)
+- Added minimal React app placeholder
+- Created comprehensive test suite for project structure validation
+- Files changed: 18 files created (package.json, tsconfig files, basic source files, tests)
+- **Learnings:** 
+  - tsconfig.json comments break JSON.parse; tests need to strip comments or use alternative parsing
+  - node:test requires explicit file patterns (*.test.js) not directory paths
+  - Vite requires index.html in frontend root
+  - React app needs minimal App.tsx and proper main.tsx setup to build
+
+---
+
+## 2026-02-13 02:24 - US-003: Create agent scanner module
+- Created backend/src/scanner/agentScanner.ts with scanAgents() and getAgent() functions
+- Added gray-matter dependency for parsing frontmatter in markdown files
+- Implemented parsing for IDENTITY.md (name, role, emoji from frontmatter or inline format)
+- Implemented parsing for SOUL.md (model and description extraction)
+- Scanner handles missing SOUL.md gracefully (returns empty strings)
+- Scanner ignores directories without IDENTITY.md
+- Returns array of ScannedAgent objects with id, name, role, model, description
+- Created comprehensive test suite in tests/agent-scanner.test.js (7 tests)
+- All tests pass, typecheck passes
+- Files changed: backend/src/scanner/agentScanner.ts (new), tests/agent-scanner.test.js (new), backend/package.json, package-lock.json
+- **Learnings:**
+  - gray-matter handles both frontmatter and raw content parsing seamlessly
+  - Using regex fallbacks for inline markdown format allows flexibility in agent file formats
+  - Scanner should be defensive - handle missing files and parse errors gracefully
+  - Test setup/teardown with node:test before/after hooks works well for temp directories
+
+---
+
+## 2026-02-13 02:08 - US-002: Set up backend Express server with TypeScript
+- Added cors and @types/cors dependencies to backend/package.json
+- Created backend/src/server.ts with Express app on port 4504
+- Configured CORS middleware to allow all origins (for Mission Control access)
+- Added JSON body parsing middleware
+- Added request logging middleware
+- Created health check endpoint at /health
+- Created API root endpoint at /api
+- Exported app and startServer function for testing
+- Created backend/src/types/index.ts with shared type definitions (Agent, Skill, Tool, ScanResult)
+- Updated backend/src/index.ts to import and call startServer
+- Created comprehensive test suite in tests/backend-server.test.js (6 tests)
+- Files changed: backend/package.json, backend/src/index.ts, backend/src/server.ts (new), backend/src/types/index.ts (new), tests/backend-server.test.js (new), package-lock.json
+- **Learnings:**
+  - Express middleware order matters: CORS first, then JSON parsing, then logging
+  - Using cors() with no options allows all origins (simplest for dev/Mission Control)
+  - Separating app creation and server start enables testing without port binding
+  - ES modules require .js extension in imports even when importing .ts files (e.g., './server.js')
+
+---
+
+## 2026-02-13 02:50 - US-008: Create API client and data fetching hooks
+- Created frontend/src/api/client.ts with fetch wrapper and typed API methods
+  * Exports getAgents(), getAgent(id), getSkills(), getSkill(name), checkHealth()
+  * Custom APIError class with status and statusText properties
+  * Uses import.meta.env.VITE_API_BASE_URL with fallback to localhost:4504
+  * Proper error handling for non-OK responses with JSON error parsing
+- Created frontend/src/hooks/useAgents.ts with useAgents() and useAgent(id) hooks
+  * Returns { data, loading, error, refetch } interface
+  * Handles loading states with setLoading(true) before fetch and setLoading(false) after
+  * Error states return Error object with message from APIError or generic error
+  * Uses useCallback for refetch function and useEffect for data fetching
+  * Implements cleanup with cancelled flag to prevent state updates after unmount
+- Created frontend/src/hooks/useSkills.ts with useSkills() and useSkill(name) hooks
+  * Same pattern as useAgents - returns { data, loading, error, refetch }
+  * Proper TypeScript typing for Skill[] data
+  * Handles null name parameter gracefully (skips fetch)
+- Created frontend/src/vite-env.d.ts to define ImportMetaEnv for TypeScript
+  * Defines VITE_API_BASE_URL environment variable type
+  * Fixes "Property 'env' does not exist on type 'ImportMeta'" error
+- Created comprehensive test suite in tests/api-hooks.test.js (43 tests)
+  * Tests for API client exports and functionality
+  * Tests for useAgents hook structure and behavior
+  * Tests for useSkills hook structure and behavior
+  * Tests for TypeScript type safety
+- All 129 tests pass, typecheck passes, build succeeds
+- Files changed: frontend/src/api/client.ts (new), frontend/src/hooks/useAgents.ts (new), frontend/src/hooks/useSkills.ts (new), frontend/src/vite-env.d.ts (new), tests/api-hooks.test.js (new)
+- **Learnings:**
+  - Vite uses `import.meta.env` for environment variables, prefixed with VITE_
+  - Need vite-env.d.ts to extend ImportMeta interface for TypeScript
+  - React hooks should handle cleanup on unmount to prevent memory leaks
+  - Use non-null assertion (!) when TypeScript can't infer null check already happened
+  - Custom error classes allow adding extra properties like status codes
+
+---

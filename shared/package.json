@@ -1,8 +1,9 @@
 {
-  "name": "clawdocs-shared",
+  "name": "@clawdocs/shared",
   "version": "1.0.0",
   "description": "Shared types and utilities for ClawDocs",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -10,5 +11,11 @@
   },
   "devDependencies": {
     "typescript": "^5.3.3"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }

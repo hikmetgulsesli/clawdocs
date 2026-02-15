@@ -1,2 +1,4 @@
-// Backend entry point - placeholder
-export {};
+import { startServer } from './server.js';
+
+// Start the Express server
+startServer();
