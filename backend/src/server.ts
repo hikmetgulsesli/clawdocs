@@ -6,7 +6,7 @@ import agentsRouter from './routes/agents.js';
 import skillsRouter from './routes/skills.js';
 import healthRouter from './routes/health.js';
 
-const PORT = 4504;
+const PORT = 3504;
 
 // Get __dirname equivalent in ESM
 const __filename = fileURLToPath(import.meta.url);

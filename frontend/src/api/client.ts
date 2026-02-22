@@ -5,8 +5,8 @@
 
 import type { Agent, Skill } from '@clawdocs/shared';
 
-// API base URL from environment variable or default
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4504';
+// API base URL from environment variable or default to relative (for production)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 /**
  * Custom error class for API errors
